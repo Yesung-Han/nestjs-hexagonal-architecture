@@ -1,3 +1,4 @@
+// Dto의 경우 인풋 Dto, 아웃풋 Dto 를 따로 만들어서 각 레이어에 전달한다.
 export type FindMembersInboundPortInputDto = void;
 
 export type FindMembersInboundPortOutputDto = Array<{
