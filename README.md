@@ -2,9 +2,23 @@
 
 원티드 프리온보딩 [실무 함수형 프로그래밍 백엔드 과정](https://pollen-port-115.notion.site/1-ebb18418356d4b078cbcc803fb3a4a14) 2강을 수강하면서 개인적으로 정리한 내용 입니다.  
 
+<br>
+
+1. [Nest.js 의 주요 컨샙](##1.-Nest.js-의-주요-컨샙)
+  - [controller 란?](###controller-란?)
+  - [Providers 란?](###Providers-란?)
+  - [Modules 란?](###Modules-란?)
+  - [NestJS의 IoC, DI](###NestJS의-IoC,-DI)
+  - [NestJS의 DI 동작 방식](###NestJS의-DI-동작-방식)
+2. [Architectures](##2.-Architectures)
+  - [Layered Architecture](###Layered-Architecture)
+  - [Layered Architecture의 발전](###Layered-Architecture의-발전)
+  - [Hexagonal(Port And Adapter) Architecture](###Hexagonal(Port-And-Adapter)-Architecture)
+
+<br>
 
 ## 1. Nest.js 의 주요 컨샙
-<center><image src="./nestjs.png" /></center>
+<center><image src="./nestjs.png" width=600/></center>
 <center>nestjs는 controller, provider, module로 단위로 구성된다.</center>
 <br><br>
 
@@ -102,13 +116,169 @@ NestJS Providers 에서 new CatsService()로 종속 객체를 직접 생성 할 
 DI 패턴, 어떤 점이 좋을까?  
 => 객체들간의 "결합도를 낮추는 것"이 핵심이다. 만약 A클래스에서 직접 B클래스를 생성해서 사용한다면, B클래스의 생성 로직이 바뀌었을때, A클래스 코드에서 B클래스 생성하는 부분까지 수정해야한다. IoC는 이러한 부분에서의 의존관계가 있는 클래스간 결합도를 낮출 수 있다.
 
+### NestJS의 DI 동작 방식
+공식 레포 [cats-app](https://github.com/nestjs/nest/tree/master/sample/01-cats-app) 샘플 예시
+
+1. NestJS는 CatsController를 인스턴스화 할 때, dependency를 살펴본다.
+2. CatsService 토큰은 CatsService 클래스를 리턴한다.
+3. SINGLETON 스코프(default)로 CatsService를 인스턴스화 한다.
+4. 메모리 내에 캐시를 하고 재사용 가능하도록 만든다.
+5. 이 모든 과정은 bottom up으로 dependency사 정확한 순서로 관리 된다.
 
 
+## 2. Architectures
+
+### Layered Architecture
+
+<center><image src="./layered_archi.png" width=600/></center>
+<center>대표적으로 3-tier Layered Architecture가 있다.</center>
+<br>
+
+이렇게 레이어를 나누면 어떤 점이 좋을까?  
+레이어의 분리 = 변경의 전파 차단: 만약 데이터 베이스가 MySQL에서 Postgres로 바뀐다고 하면 변경이 Data Layer에 해당되는 Repository에만 한정되기 때문에 상위 레이어인 Service로직이나 Controller에까지 변경이 올라가는 것을 막을 수 있다.
+
+Layered Architecture 에서 고민해 볼 점  
+만약 요청이 성공적으로 처리되었을 때 이메일을 보내야 한다면 과연 이메일 관련 코드들은 어느 레이어에 추가 해야 할까? 데이터 베이스처럼 메일 서버가 바뀔수 있기 때문에 Data Layer에 추가해야 할까? 아니면 따로 Util 레이어를 만들어야 할까?
 
 
+### Layered Architecture의 발전  
+
+<center><image src="./layered2.png" width=600/></center>
+<center>Layered Architecture를 세로로 돌려보면 위와 같은 구조가 된다.</center>
+<br>
+
+Layered Architecture의 최 상단 및 하단 레이어는 단순히 응용 프로그램에 대한 진입/출구 지점이라고 볼 수 있다. 그리고 위에서 말한 이메일 기능을 추가하는 예시와 같이 오른쪽과 왼쪽 측면에는 여러 진입/종료 지점이 있을 수 있다.
 
 
+여러 진입/종료 지점이 있을 수 있다는 것을 표현하기 위해 Business Logic 부분을 육각형으로 그리면 아래와 같은 이미지가 된다.
+
+<center><image src="./hexagonal1.png" width=600/></center>
+<br>
+
+위 구조에 Port와 Adapter 개념을 추가한것이 바로 Hexagonal Architecture(Port And Adapter) 패턴이다.
+
+<center><image src="./port_and_adapter.png" width=600/></center>
+<br>
+
+Hexagonal Architecture의 핵심은 다양하고 변화무쌍한 외부세계와 애플리케이션 내부세계를 분리하는 것이 핵심이다.
+
+애플리케이션이 시스템 중앙에 있으므로 임시로 적용하려는 기술이나 툴 및 데이터 전달 메커니즘과 같은 구현 세부 사항에서 애플리케이션을 분리할 수 있고, 분리 되어 있기 때문에 테스트나 코드를 재사용 하기도 편해진다.
+
+<br>
+<center><image src="./hexagonal3.png" width=600/></center>
+<center>변화무쌍한 외부세계의 중간에 메인 비즈니스 로직이 존재한다. 외부세계에서 발생 할 수 있는 위험을 내부세계와 분리한다. </center>
+<br>
+
+### Hexagonal(Port And Adapter) Architecture
+
+<br>
+<center><image src="./port_and_adapter2.png" width=600/></center>
+<br>
+
+Hexagonal(Port And Adapter) Architecture의 구성 요소
+- inbound-adapter: controller (GraphQL, REST, gRPC, CLI...)  
+- inbound-port: 서비스로직으로 향하는 interface  
+- service: inbound-port interface의 구현체  
+- outbound-port: 외부 세계로 향하는 interface
+- outbound-adapter: outbound-port interface의 구현체(DB, Search Engin, Notification...)
 
 
+inbound-adapter = controller
+```typescript
+@Controller()
+export class GetMembersController {
+  constructor(
+  @Inject(FIND_MEMBERS_INBOUND_PORT)
+  private readonly findMembersInboundPort: FindMembersInboundPort,
+  ) {}
+  
+  @Get('/members')
+  async handle() {
+    return this.findMembersInboundPort.execute();
+  }
+}
+```
+<br>
 
+inbound-port = 서비스로직으로 향하는 interface  
+```typescript
+export type FindMembersInboundPortInputDto = void;
+export type FindMembersInboundPortOutputDto = Array<{
+  id: number;
+  name: string;
+  notificationToken: string;
+  state: string;
+}>;
 
+export const FIND_MEMBERS_INBOUND_PORT = 'FIND_MEMBERS_INBOUND_PORT' as const;
+export interface FindMembersInboundPort {
+  execute(
+    params: FindMembersInboundPortInputDto,
+  ): Promise<FindMembersInboundPortOutputDto>;
+}
+```
+
+<br>
+
+service = inbound-port interface의 구현체  
+```typescript
+export class FindMembersService implements FindMembersInboundPort {
+  constructor(
+    @Inject(FIND_MEMBERS_OUTBOUND_PORT)
+    private readonly findMembersOutboundPort: FindMembersOutboundPort,
+  ) {}
+
+  async execute(
+    params: FindMembersInboundPortInputDto,
+  ): Promise<FindMembersInboundPortOutputDto> {
+    return this.findMembersOutboundPort.execute();
+  }
+}
+```
+
+outbound-port = 외부 세계로 향하는 interface
+```typescript
+export type FindMembersOutboundPortInputDto = void;
+
+export type FindMembersOutboundPortOutputDto = Array<{
+  name: string;
+  email: string;
+  phone: string;
+}>;
+
+export const FIND_MEMBERS_OUTBOUND_PORT = 'FIND_MEMBERS_OUTBOUND_PORT' as const;
+
+export interface FindMembersOutboundPort {
+  execute(
+    params: FindMembersOutboundPortInputDto,
+  ): Promise<FindMembersOutboundPortOutputDto>;
+}
+
+```
+
+outbound-adapter = outbound-port interface의 구현체(DB, Search Engin, Notification...)
+```typescript
+import {
+  FindMembersOutboundPort,
+  FindMembersOutboundPortInputDto,
+  FindMembersOutboundPortOutputDto,
+} from '../outbound-port/find-members.outbound-port';
+
+import { MemoryDatabase } from '../../lib/memory-database';
+
+export class FindMembersRepository implements FindMembersOutboundPort {
+  async execute(
+    params: FindMembersOutboundPortInputDto,
+  ): Promise<FindMembersOutboundPortOutputDto> {
+    const members = await MemoryDatabase.findMembers();
+
+    return members.map((member) => {
+      return {
+        name: member.name,
+        email: member.email,
+        phone: member.phone,
+      };
+    });
+  }
+}
+```
