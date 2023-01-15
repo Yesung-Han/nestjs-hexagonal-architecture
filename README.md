@@ -93,7 +93,7 @@ export class CatsModule {}
 예시) 자동차 직접 몰기 VS 택시 이용하기  
 자동차를 직접 몰면 내가 자동차를 다 제어해야 하지만, 택시를 타면 내가 자동차를 제어하지 않아도 된다. 자동차 제어의 주체가 나에서 택시기사라는 새로운 객체로 역전된다.
 
-- Dependency Injection (IoC, 의존성 주입)  
+- Dependency Injection (DI, 의존성 주입)  
 IoC 원칙에 기반한 종속 객체 생성에 대한 패턴 입니다.([원칙 VS 패턴](https://www.tutorialsteacher.com/articles/difference-between-design-principle-and-design-pattern))  
 클래스 내부에서 필요한 다른 객체를 직접 생성해서 사용하는 것이아니라 클래스 외부에서 생성 하고, 외부에서 생성된 종속성 객체를 여러 방법으로 가져와 사용하는 패턴.
 
