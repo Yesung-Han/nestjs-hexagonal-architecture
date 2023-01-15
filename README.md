@@ -282,3 +282,9 @@ export class FindMembersRepository implements FindMembersOutboundPort {
   }
 }
 ```
+
+함께 보면 좋은 자료
+- https://docs.nestjs.com/
+- https://medium.com/java-vault/layered-architecture-b2f4ebe8d587
+- https://herbertograca.com/2017/09/14/ports-adapters-architecture/#evolving-from-the-layered-architecture
+- https://dev.to/dyarleniber/hexagonal-architecture-and-clean-architecture-with-examples-48oi
