@@ -4,20 +4,20 @@
 
 <br>
 
-1. [Nest.js 의 주요 컨샙](##1.-Nest.js-의-주요-컨샙)
-  - [controller 란?](###controller-란?)
-  - [Providers 란?](###Providers-란?)
-  - [Modules 란?](###Modules-란?)
-  - [NestJS의 IoC, DI](###NestJS의-IoC,-DI)
-  - [NestJS의 DI 동작 방식](###NestJS의-DI-동작-방식)
-2. [Architectures](##2.-Architectures)
-  - [Layered Architecture](###Layered-Architecture)
-  - [Layered Architecture의 발전](###Layered-Architecture의-발전)
-  - [Hexagonal(Port And Adapter) Architecture](###Hexagonal(Port-And-Adapter)-Architecture)
+1. [Nest.js의 주요 컨샙](#1-nestjs의-주요-컨샙)
+  - [controller 란?](#controller-란)
+  - [Providers 란?](#providers-란)
+  - [Modules 란?](#modules-란)
+  - [NestJS의 IoC, DI](#nestjs의-ioc-di)
+  - [NestJS의 DI 동작 방식](#nestjs의-di-동작-방식)
+2. [Architectures](##2-architectures)
+  - [Layered Architecture](#layered-architecture)
+  - [Layered Architecture의 발전](#layered-architecture의-발전)
+  - [Hexagonal(Port And Adapter) Architecture](#hexagonalport-and-adapter-architecture)
 
 <br>
 
-## 1. Nest.js 의 주요 컨샙
+## 1. Nest.js의 주요 컨샙
 <center><image src="./nestjs.png" width=600/></center>
 <center>nestjs는 controller, provider, module로 단위로 구성된다.</center>
 <br><br>
