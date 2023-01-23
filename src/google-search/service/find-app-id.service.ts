@@ -36,7 +36,7 @@ export class FindAppIdService implements FindAppIdInboundPort {
         filter((link) => link.includes('https://apps.apple.com')),
         map((link) => link.match(/[0-9]+/gi)),
         map(head),
-        reject((appId) => appId.length > 11),
+        reject((appId) => appId.length > 10),
         reject((appId) => appId.length < 9),
         uniq,
         toArray,
